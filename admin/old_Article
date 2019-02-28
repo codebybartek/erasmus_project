@@ -1,0 +1,195 @@
+old_Article
+
+<style type="text/css">
+/* <![CDATA[ */
+table tr td { border: 1px solid black; text-align: center; padding: 3px; }
+/* ]]> */
+</style>
+
+<?php
+	
+	include_once('../includes/connection.php');
+	include_once('../includes/film.php');
+
+	session_start();
+	if(isset($_SESSION['logged_in'])) {
+	
+	if(isset($_GET['order'])){
+		$order = explode(" ", $_GET['order']);
+		$column = $order[0];
+		$direct = $order[1];
+	}else{
+		$order = NULL;
+		$column = 'Id_film';
+		$direct = 'asc';
+	}
+	if(isset($_GET['mod'])){
+		$mod =  $_GET['mod'];
+	}else{
+		$mod =  NULL;
+	}
+
+	$film = new Film;
+	$films= $film->fetch_selcted($column, $direct);
+	
+
+	if ($films) {
+		if(!$mod){
+			echo "<table>";
+			echo "<tr>";
+			echo "<td>ID</td>";
+			echo "<td>Film title<br><a href='?admin&order=title_film asc'>rosnaco</a> <a href='?admin&order=title_film desc'>malejaco</a></td>";
+			echo "<td>Film description<br><a href='?admin&order=description_film asc'>rosnaco</a> <a href='?admin&order=description_film desc'>malejaco</a></td>";
+			echo "<td>Rate<br><a href='?admin&order=rate_film asc'>rosnaco</a> <a href='?admin&order=rate_film desc'>malejaco</a></td>";
+			echo "<td>Date of production<br><a href='?admin&order=date_film asc'>rosnaco</a> <a href='?admin&order=date_film desc'>malejaco</a></td>";
+			echo "<td>Category</td>";
+			echo "</tr>";
+			$i = 0;
+			foreach ($films as $film){
+				$i++;
+				echo "<tr>";
+				echo "<td>".$i."</td>";
+				echo "<td>".$film['title_film']."</td>";
+				echo "<td>".$film['description_film']."</td>";
+				echo "<td>".$film['rate_film']."</td>";
+				echo "<td>".$film['date_film']."</td>";
+				echo "<td>".$film['name_category']."</td>";
+				echo "</tr>";
+			}
+			echo "</table>";
+			
+			echo "<br><a href='?admin&mod=1'>Modyfikuj</a><br>";
+		} else {
+			echo "<table>";
+			echo "<tr>";
+			echo "<td>ID</td>";
+			echo "<td>Film title<br><a href='?admin&order=title_film asc&mod=1'>rosnaco</a> <a href='?admin&order=title_film desc&mod=1'>malejaco</a></td>";
+			echo "<td>Film description<br><a href='?admin&order=description_film asc&mod=1'>rosnaco</a> <a href='?admin&order=description_film desc&mod=1'>malejaco</a></td>";
+			echo "<td>Rate<br><a href='?admin&order=rate_film asc&mod=1'>rosnaco</a> <a href='?admin&order=rate_film desc&mod=1'>malejaco</a></td>";
+			echo "<td>Date of production<br><a href='?admin&order=date_film asc&mod=1'>rosnaco</a> <a href='?admin&order=date_film desc&mod=1'>malejaco</a></td>";
+			echo "<td>Modyfikuj</td>";
+			echo "<td>Usun</td>";
+			echo "</tr>";
+			$i = 0;
+			foreach ($films as $film){
+				$i++;
+				echo "<form action='?admin&mod=1' method='post'>";	
+				echo "<tr>";
+				echo "<td><input type='text' name='Id_film' value='".$i."' readonly></td>";
+				echo "<td><input type='text' name='title_film' value='".$film['title_film']."'></td>";
+				echo "<td><input type='text' name='description_film' value='".$film['description_film']."'</td>";
+				echo "<td><input type='text' name='rate_film' value='".$film['rate_film']."'</td>";
+				echo "<td><input type='text' name='date_film' value='".$film['date_film']."'</td>";
+				echo "<td><input type='submit' value='Modyfikuj' name='mod2'></td>";
+				echo "<td><input type='submit' value='Usun' name='del'></td>";
+				echo "</tr>";
+				echo "</form>";
+			}
+			echo "</table>";		
+			if($_POST){
+				$Id_film = htmlspecialchars(trim($_POST['Id_film']));
+				$title_film = htmlspecialchars(trim($_POST['title_film']));
+				$description_film = htmlspecialchars(trim($_POST['description_film']));
+				$rate_film = htmlspecialchars(trim($_POST['rate_film']));
+				$date_film = htmlspecialchars(trim($_POST['date_film']));
+				$mod2 = htmlspecialchars(trim($_POST['mod2']));
+				if(isset($del)){
+					$del = htmlspecialchars(trim($_POST['del']));	
+				}
+				if($Id_film && $title_film && $description_film && $rate_film && $date_film){
+					if($mod2){
+
+						$query = $pdo->prepare("UPDATE films SET title_film  = ? , description_film = ? , rate_film = ? , date_film = ?  WHERE Id_film=? ");
+
+						$query->bindValue(1, $title_film);
+						$query->bindValue(2, $description_film);
+						$query->bindValue(3, $rate_film);
+						$query->bindValue(4, $date_film);
+						$query->bindValue(5, $Id_film);
+
+						$query->execute();
+
+						header('Location: admin.php?admin&mod=1');
+					} else {
+						$query = $pdo->prepare("DELETE FROM films WHERE Id_film= ? ");
+						$query->bindValue(1, $Id_film);
+
+						$query->execute();
+
+						header('Location: admin.php?admin&mod=1');
+					}
+				}
+			}
+			echo "<br><a href='?admin'>Wyswietl</a><br>";
+		}
+	}
+	
+	echo "<br><br>Dodaj dane:<br>";
+	
+	echo "<form action='?admin&mod=".$mod."' method='post' enctype='multipart/form-data'>";	
+	
+	echo "<table>";
+	echo "<tr>";
+	echo "<td>Film title</td>";
+	echo "<td>Film description</td>";
+	echo "<td>Film rate</td>";
+	echo "<td>Film date of production</td>";
+	echo "<td>Image</td>";
+	echo "<td>Category</td>";
+	echo "</tr>";
+	echo "<tr>";
+	echo "<td><input type='text' name='title_film'></td>";
+	echo "<td><input type='text' name='description_film'></td>";
+	echo "<td><input type='number' name='rate_film'></td>";
+	echo "<td><input type='number' name='date_film'></td>";
+	echo "<td><input type='file' name='file'></td>";
+	echo "<td><select name='category'>
+			  <option value='1'>dramat</option>
+			  <option value='2'>horror</option>
+			  <option value='3'>romantic</option>
+			  <option value='4'>comedy</option>
+		 </select></td>";
+	echo "<td><input type='submit' name='add' value='Dodaj'></td>";
+	echo "</tr>";
+	echo "</table>";
+	
+	echo "</form>";
+	
+	if($_POST){
+			$title_film = htmlspecialchars(trim($_POST['title_film']));
+			$description_film = htmlspecialchars(trim($_POST['description_film']));
+			$rate_film = htmlspecialchars(trim($_POST['rate_film']));
+			$date_film = htmlspecialchars(trim($_POST['date_film']));
+			$category = $_POST['category'];
+
+			$file = $_FILES['file'];
+	
+			if($_FILES){
+				$filedir = "../assets/images/".basename($file['name']);
+				$type = pathinfo($file['name'], PATHINFO_EXTENSION);
+				if($type == "jpg" || $type == "png")
+					move_uploaded_file($file['tmp_name'], $filedir);
+					print_r($filedir);
+			}
+
+			$add = htmlspecialchars(trim($_POST['add']));
+			if($title_film && $description_film && $rate_film && $date_film &&$add){
+
+				$query = $pdo->prepare("INSERT INTO films SET title_film= ? , description_film= ? , img_film=? , rate_film= ? , date_film= ?, id_category= ? ");
+				$query->bindValue(1, $title_film);
+				$query->bindValue(2, $description_film);
+				$query->bindValue(3, $filedir);
+				$query->bindValue(4, $rate_film);
+				$query->bindValue(5, $date_film);
+				$query->bindValue(6, $category);
+
+				$query->execute();		
+				
+
+				header('Location: admin.php?admin&mod='.$mod);
+			}
+		}
+	}
+?>
+
+<a href="index.php">Strona glowna</a>
