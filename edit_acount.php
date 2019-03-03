@@ -9,24 +9,13 @@
 		$password = md5($_POST['password']);
 		$date = date('Y-m-d H:i:s');
 
-		$error = null;
-		$errorEmail = null;
+		$query = $pdo->prepare("UPDATE `users` SET name_user= :name, password_user= :password, email_user= :email, id_role=2 ,created_data= :data WHERE id_user = :id_user");
 
-		if(empty($username) or empty($password)) {
-			$error = 'All fields are required!';
-		}
-		if(!filter_var($email, FILTER_VALIDATE_EMAIL) && !$error){
-			$errorEmail = 'Invalid email';
-		}
-		if(!$error && !$errorEmail){
-			$query = $pdo->prepare("INSERT INTO users (name_user, password_user, email_user, id_role, created_data) VALUES (:name, :password, :email,2, :data)");
+		$query->execute(['name' => $username, 'password' => $password, 'email' => $email, 'data' => $date, 'id_user' => $id_user]); 
 
-			$query->execute(['name' => $username, 'password' => $password, 'email' => $email, 'data' => $date]); 
-
-			$_SESSION['logged_in'] = true;
-			$_SESSION['name'] = $username;
-			header('Location:login.php');
-		}
+		$_SESSION['logged_in'] = true;
+		$_SESSION['name'] = $username;
+		header('Location: admin/admin.php');
 	}
 ?>
 
@@ -56,7 +45,7 @@
 									<label>Password</label>
 									<input type="password" name="password" placeholder="Enter your password" />
 								</div>
-								<input class="submit" type="submit" name="submit" value="Register">
+								<input class="submit" type="submit" name="submit" value="Login">
 								<?php if(isset($error)){ ?>
 										<span class="error"><?php echo $error; ?></span>
 								<?php } ?>

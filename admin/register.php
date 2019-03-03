@@ -58,9 +58,9 @@
 								</div>
 								<div class="lg100 xs100 padding-15">
 									<label>Password</label>
-									<input type="text" name="password" placeholder="Enter your password" />
+									<input type="password" name="password" placeholder="Enter your password" />
 								</div>
-								<input class="submit" type="submit" name="submit" value="Login">
+								<input class="submit" type="submit" name="submit" value="Register">
 							</div>
 						</form>						
 					</div>

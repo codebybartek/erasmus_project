@@ -38,18 +38,18 @@
 			<div class="container">
 				<div class="row">
 					<div class="lg100 login_content">
-						<?php if(isset($error)){ ?>
-							<span class="error"><?php echo $error; ?></span>
-						<?php } ?>
 						<form class="user_acces_form" action="login.php" method="post">
 							<div class="row row-margin">
 								<div class="lg100 xs100 padding-15">
+									<?php if(isset($error)){ ?>
+										<span class="error"><?php echo $error; ?></span>
+									<?php } ?>
 									<label>Username</label>
 									<input type="text" name="username" placeholder="Enter your username" />
 								</div>
 								<div class="lg100 xs100 padding-15">
 									<label>Password</label>
-									<input type="text" name="password" placeholder="Enter your password" />
+									<input type="password" name="password" placeholder="Enter your password" />
 								</div>
 								<input class="submit" type="submit" name="submit" value="Login">
 							</div>

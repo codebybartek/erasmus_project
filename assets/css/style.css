@@ -520,6 +520,8 @@ hr {
 }
 .film .rate{
   right: 15px;
+  width: 80px;
+  font-size: 16px;
   background-color: #d3c84a;
 }
 .film .rate input{
@@ -537,13 +539,16 @@ hr {
   position: absolute;
   top: 0;
   bottom: 0;
-  padding: 50px 15px;
+  padding: 30px 15px;
   right: 15px;
   left: 15px;
   background-color: rgba(11, 18, 21, 0.83);
   color: #fff;
   transform: scale(0);
   transition: 1s;
+}
+.film_edit .body_content{
+  padding: 15px;
 }
 .film_content:hover > .body_content{
   transform: scale(1);
@@ -555,6 +560,7 @@ hr {
   display: inline-block;
   float: left;
   width: 50%;
+  font-size: 1.2em;
 }
 .film .delete_input{
   color: #db0000;
@@ -590,12 +596,19 @@ hr {
   color: #fff;
   text-align: center;
   padding: 10px;
-  background-color: transparent;
+  background-color: transparent!important;
   border: 1px solid #fff;
   margin: 0 auto;
   margin-bottom: 20px;
 }
-.user_acces_form input::placeholder{
+input:-internal-autofill-previewed, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected {
+   background-color: transparent!important;
+}
+::-webkit-input-placeholder::placeholder{
+  color: #fff;
+  text-align: center;
+}
+:-moz-placeholder{
   color: #fff;
   text-align: center;
 }
@@ -686,18 +699,58 @@ hr {
   color: red;
   font-size: 0.8em;
 }
-
-
-
-
-
-
-
-
-
-
-
-
+.film_page{
+  padding: 50px 0;
+  text-align: left;
+}
+.film_page h1{
+  text-align: left;
+}
+.add_rate{
+  cursor: pointer;
+  padding: 15px 0;
+  display: inline-block;
+  position: relative;
+}
+.add_rate:hover{
+  color: green;
+}
+.add_rate_form{
+  display: none;
+}
+.film_page h1{
+  padding-top: 0;
+}
+.film_page iframe{
+  margin: 50px auto;
+  float: none;
+  display: inherit;
+}
+.comments{
+  padding: 50px 0;
+  font-size: 1em;
+}
+.comments h6{
+  font-size: 1.2em;
+  color: #9c9c9c;
+  display: inline-block;
+}
+.comments h5{
+  padding-bottom: 15px;
+}
+.comments .datetime{
+  font-size: 0.7em;
+  color: gray;
+  float: right;
+  padding-top: 2px;
+ }
+.comments .comment{
+  border-top: 1px solid gray;
+  padding: 10px 15px;
+}
+.comments .comment:last-child{
+  border-bottom: 1px solid gray;
+}
 
 
 
