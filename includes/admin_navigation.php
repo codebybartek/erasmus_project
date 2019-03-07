@@ -14,7 +14,7 @@
 								<li><a href="admin/admin.php?mod=add">Add new film</a></li>
 								<li><a href="admin/admin.php?mod=delete">Delete film</a></li>
 								<li><a href="admin/admin.php?mod=edit">Edit film</a></li>
-								<li><a href="#">Edit yours account</a></li>
+								<li><a href="edit_account.php">Edit yours account</a></li>
 							</ul>
 					</div>
 				</div>

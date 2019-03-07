@@ -13,6 +13,7 @@
 <head>
 	<title>YOUR THE BEST FILM</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $path; ?>assets/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
 </head>
 <body>
 	<div class="lg100 top border_bottom">

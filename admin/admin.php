@@ -120,6 +120,19 @@
 						<input type='text' name='trailer_film'>
 					</div>
 					<div class="lg50 xs100 padding-15">
+						<label>Director:</label>
+						<input type='text' name='director_film'>
+					</div>
+					<div class="lg50 xs100 padding-15">
+						<label>Country</label>
+						<select name='country_film'>
+							  <option value='1'>USA</option>
+							  <option value='2'>France</option>
+							  <option value='3'>UK</option>
+							  <option value='4'>Spain</option>
+						 </select>
+					</div>
+					<div class="lg50 xs100 padding-15">
 						<label>Image</label>
 						<input type='file' name='file'>
 					</div>
@@ -143,6 +156,8 @@
 			$description_film = htmlspecialchars(trim($_POST['description_film']));
 			$date_film = htmlspecialchars(trim($_POST['date_film']));
 			$trailer_film = htmlspecialchars(trim($_POST['trailer_film']));
+			$director_film = htmlspecialchars(trim($_POST['director_film']));
+			$country_film = htmlspecialchars(trim($_POST['country_film']));
 			$category = $_POST['category'];
 
 			$file = $_FILES['file'];
@@ -158,13 +173,15 @@
 			$add = htmlspecialchars(trim($_POST['add']));
 			if($title_film && $description_film && $date_film && $add && $trailer_film){
 
-				$query = $pdo->prepare("INSERT INTO films SET title_film= ? , description_film= ? , img_film=?, date_film= ?, trailer_film = ?, id_category= ? ");
+				$query = $pdo->prepare("INSERT INTO films SET title_film= ? , description_film= ?, director_film= ?, id_country= ?, img_film=?, date_film= ?, trailer_film = ?, id_category= ? ");
 				$query->bindValue(1, $title_film);
 				$query->bindValue(2, $description_film);
-				$query->bindValue(3, $filedir);
-				$query->bindValue(4, $date_film);
-				$query->bindValue(5, $trailer_film);
-				$query->bindValue(6, $category);
+				$query->bindValue(3, $director_film);
+				$query->bindValue(4, $country_film);
+				$query->bindValue(5, $filedir);
+				$query->bindValue(6, $date_film);
+				$query->bindValue(7, $trailer_film);
+				$query->bindValue(8, $category);
 
 				$query->execute();		
 				

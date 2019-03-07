@@ -9,12 +9,9 @@ class Film
 	public function fetch_all(){
 		global $pdo;
 
-		$query = $pdo->prepare("SELECT films.id_film, films.title_film, films.description_film, films.img_film, films.trailer_film, films.date_film, category.name_category FROM films INNER JOIN category ON category.id_category=films.id_category
-");
+		$query = $pdo->prepare("SELECT films.id_film, countries.country, films.title_film, films.description_film, films.director_film, films.img_film, films.trailer_film, films.date_film, category.name_category FROM films INNER JOIN category ON category.id_category=films.id_category INNER JOIN countries ON countries.id_country=films.id_country");
+
 		$query->execute();
-
-		
-
 
 		return $query->fetchAll();
 	}

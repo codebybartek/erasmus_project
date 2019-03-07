@@ -12,7 +12,6 @@
 		$film->add_rate($id, $rate);
 		header('Location:index.php');
 	}
-
 ?>
 
 	<div class="lg100 banner display_flex">
@@ -63,18 +62,23 @@
 								?></span>
 								<div class="body_content">
 									<h3><?php echo $film['title_film']; ?></h3>
-									<p><?php 
-										$max_length = 340;
-										if (strlen($film['description_film']) > $max_length)
-										{
-										    $offset = ($max_length - 3) - strlen($film['description_film']);
-										    $description = substr($film['description_film'], 0, strrpos($film['description_film'], ' ', $offset)) . '...';
-										    echo $description; 
-										}else{
-											echo $film['description_film'];
-										}
-										
-									?></p>
+									<p>
+										<?php 
+											$max_length = 350;
+											if (strlen($film['description_film']) > $max_length)
+											{
+											    $offset = ($max_length - 3) - strlen($film['description_film']);
+											    $description = substr($film['description_film'], 0, strrpos($film['description_film'], ' ', $offset)) . '...';
+											    echo $description; 
+											}else{
+												echo $film['description_film'];
+											}
+										?>
+									</p>
+									<div class="create_info">
+										<span class="director"><?php echo $film['director_film']; ?></span>,
+										<span class="country"><?php echo $film['country']; ?></span>
+									</div>
 									<a href="film.php?id=<?php echo $id; ?>" class="see_more">See more</a>
 									<span onclick="showAddrate(<?php echo $id; ?>)" class="add_rate">Add your rate</span>
 									<form class="add_rate_form" id="form_rate<?php echo $id; ?>" action="index.php" method="get">
