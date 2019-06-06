@@ -2,10 +2,6 @@
 	
 	include_once('includes/connection.php');
 	include_once('header.php');
-	include_once('includes/film.php');
-
-	$film = new Film;
-
 	if(isset($_SESSION['logged_in'])) {
 		include_once('includes/admin_navigation.php');
 	} else {
@@ -25,19 +21,14 @@
 				if($num == 1) {
 					$_SESSION['logged_in'] = true;
 					$_SESSION['name'] = $username;
-					$user = $film->get_user_id($username);
-					$_SESSION['id_role'] = $user['id_role'];
-					if($user['id_role'] == 2){
-						header('Location:film.php');
-					}else{
-						header('Location:login.php');
-					}
+					header('Location:login.php');
 				} else {
 					$error = "User doesn't exist!";
 				}
 			}
 		}
 ?>
+
 	<div class="lg100 banner display_flex">
 		<img class="slide_banner" src="assets/images/banner2.jpg">
 		<img class="slide_banner" src="assets/images/banner2.jpg">

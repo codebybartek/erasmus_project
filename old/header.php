@@ -19,18 +19,17 @@
 	<div class="lg100 top border_bottom">
 		<div class="container">
 			<div class="row display_flex">
-				<header class="lg30 xs30 logo">
+				<header class="lg30 xs100 logo">
 					<a href="<?php echo $path; ?>index.php"><img src="<?php echo $path; ?>assets/images/logo.png" alt="THE BEST FILM"></a>
 				</header>	
-				<button onclick="menu()" class="burger_btn">&equiv;</button>	
-				<nav class="lg70 xs100 navbar display_flex" id="navbar">
+				<nav class="lg70 xs100 navbar display_flex">
 					<ul>
 						<li><a href="<?php echo $path; ?>index.php">Films</a></li>
-						<li><a href="<?php echo $path; ?>serials.php">Series</a></li>
-						<li><a href="<?php echo $path; ?>top-3.php">Top 3</a></li>
-						<?php if(isset($_SESSION['logged_in']) && isset($_SESSION['id_role']))  { if($_SESSION['id_role'] != 2) { ?>
+						<li><a href="<?php echo $path; ?>index.php">Serials</a></li>
+						<li><a href="<?php echo $path; ?>index.php">Top50</a></li>
+						<?php if(isset($_SESSION['logged_in'])) { ?>
 							<li><a href="<?php echo $path; ?>login.php">admin</a></li>
-						<?php }} ?>
+						<?php } ?>
 					</ul>
 					<aside class="nav-right">
 						<?php if(isset($_SESSION['logged_in'])) { ?>
@@ -44,14 +43,3 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-	  	function menu() {
-	  		if(document.getElementById("navbar").style.display != "block"){
-	    		document.getElementById("navbar").style.display = "block";	
-	    	}else{
-	    		document.getElementById("navbar").style.display = "none";	
-	    	}
-	    }
-
-
-	</script>

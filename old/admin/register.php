@@ -2,42 +2,38 @@
 	
 	include_once('includes/connection.php');
 	include_once('header.php');
-	include_once('includes/film.php');
-
-	$film = new Film;
-
+	session_start();
 	if(isset($_SESSION['logged_in'])) {
-		include_once('includes/admin_navigation.php');
+		echo '<h1>You are successfull logeed!</h1>';
 	} else {
 		if(isset($_POST['username'], $_POST['password'])) {
 			$username = $_POST['username'];
+			$email = $_POST['email'];
 			$password = md5($_POST['password']);
+
+			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      			$error = "Invalid email format"; 
+    		}
 
 			if(empty($username) or empty($password)) {
 				$error = 'All fields are required!';
 			}else{
-				$query = $pdo->prepare("SELECT * FROM users WHERE name_user= :name AND password_user= :password");
+				$query = $pdo->prepare("INSERT INTO users WHERE ('name_user', 'password_user', 'email_user', 'id_role', 'created_data') VALUES (:name,:password, :email,2)");
 
-				$query->execute(['name' => $username, 'password' => $password]); 
+				$query->execute(['name' => $username, 'password' => $password, 'email' => $email]); 
 
 				$num = $query->rowCount();
 
 				if($num == 1) {
-					$_SESSION['logged_in'] = true;
-					$_SESSION['name'] = $username;
-					$user = $film->get_user_id($username);
-					$_SESSION['id_role'] = $user['id_role'];
-					if($user['id_role'] == 2){
-						header('Location:film.php');
-					}else{
-						header('Location:login.php');
-					}
+					$_SESSION['logged_in'] = 1;
+					header('Location:login.php');
 				} else {
 					$error = "User doesn't exist!";
 				}
 			}
 		}
 ?>
+
 	<div class="lg100 banner display_flex">
 		<img class="slide_banner" src="assets/images/banner2.jpg">
 		<img class="slide_banner" src="assets/images/banner2.jpg">
@@ -47,20 +43,24 @@
 			<div class="container">
 				<div class="row">
 					<div class="lg100 login_content">
-						<form class="user_acces_form" action="login.php" method="post">
+						<?php if(isset($error)){ ?>
+							<span class="error"><?php echo $error; ?></span>
+						<?php } ?>
+						<form class="login_form" action="register.php" method="post">
 							<div class="row row-margin">
 								<div class="lg100 xs100 padding-15">
-									<?php if(isset($error)){ ?>
-										<span class="error"><?php echo $error; ?></span>
-									<?php } ?>
 									<label>Username</label>
 									<input type="text" name="username" placeholder="Enter your username" />
+								</div>
+								<div class="lg100 xs100 padding-15">
+									<label>Email</label>
+									<input type="text" name="email" placeholder="Enter your email" />
 								</div>
 								<div class="lg100 xs100 padding-15">
 									<label>Password</label>
 									<input type="password" name="password" placeholder="Enter your password" />
 								</div>
-								<input class="submit" type="submit" name="submit" value="Login">
+								<input class="submit" type="submit" name="submit" value="Register">
 							</div>
 						</form>						
 					</div>
